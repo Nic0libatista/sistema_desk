@@ -1,0 +1,23 @@
+{
+  "name": "sistema_desk",
+  "version": "1.0.0",
+  "description": "Desenvolvimento de um sistema desktop para a gestão de ordem de serviços de uma assistência técnica de computadores e notebooks.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nic0libatista/sistema_desk.git"
+  },
+  "author": "Nicoli Santos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nic0libatista/sistema_desk/issues"
+  },
+  "homepage": "https://github.com/Nic0libatista/sistema_desk#readme",
+  "devDependencies": {
+    "electron": "^34.2.0"
+  }
+}
