@@ -10,12 +10,12 @@
      <!-- css personalizado -->
       <link rel="stylesheet" href="../public/css/style.css">
     <!-- Impedir a execução de scripts externos ou não autorizados-->
-     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
 </head>
 <body>
     <div class="containe button">
-    <img src="../public/img/clientes.png" alt="clientes" title=" Cadastro de clientes">
-    <img src="../public/img/os.png" alt="computador" title="emissão de os">
+    <img src="../public/img/clientes.png" alt="clientes" title=" Cadastro de clientes" onclick="cliente()">
+    <img src="../public/img/os.png" alt="computador" title="emissão de os" onclick="os()">
 </div>
 
 <footer>
@@ -24,5 +24,7 @@
      <!-- bootstrap -->
       <script src="../public/js/bootstrap.min.js"></script>
       <script src="../public/js/script.js"></script>
+      <!-- renderizador -->
+       <script src="renderer.js"></script>
 </body>
 </html>
