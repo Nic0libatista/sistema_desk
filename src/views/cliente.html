@@ -9,7 +9,8 @@
     <!-- css personalizado -->
      <link rel="stylesheet" href="../public/css/style.css">
    <!-- Impedir a execução de scripts externos ou não autorizados-->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    
 </head>
 <body>
     <div class="container">
@@ -59,12 +60,12 @@
                <div class="col-md-2">
                 <label for="inputCEPClient" class="form-label"> Cep </label>
    
-                <input type="text" id="inputCEPClient" spellcheck="false" required maxlength="15" class="form-control">
+                <input type="text" id="inputCEPClient" spellcheck="false" required onblur="buscarCEP()" maxlength="9" class="form-control" >
                </div>
    
                <!-- logradouro -->
                <div class="col-md-6">
-                <label for="inputAddressClient" class="form-label"> nome </label>
+                <label for="inputAddressClient" class="form-label"> logradouro </label>
    
                 <input type="text" id="inputAddressClient" spellcheck="false" required maxlength="30" class="form-control">
                </div>
@@ -92,9 +93,9 @@
    
                <!-- estado -->
                <div class="col-md-5">
-                <label for="inputStateClient" class="form-label"> estado </label>
+                <label for="inputCityClient" class="form-label"> cidade </label>
    
-                <input type="text" id="inputStateClient" spellcheck="false" required maxlength="30" class="form-control">
+                <input type="text" id="inputCityClient" spellcheck="false" required maxlength="30" class="form-control">
                </div>
 
 
@@ -145,6 +146,8 @@
     </div>
     <!-- bootstrap -->
      <script src="../public/js/bootstrap.min.js"></script>
+     <!-- renderizador -->
+     <script src="../views/rendererClient.js"> </script>
    <!--  <script src="../public/js/script.js"></script> -->
 </body>
 </html>  

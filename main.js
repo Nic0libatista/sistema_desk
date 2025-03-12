@@ -12,7 +12,7 @@ const createWindow = () => {
     nativeTheme.themeSource = 'light' //(dark ou light)
     win = new BrowserWindow({
         width: 800,
-        height: 600,
+        height: 700,
         //autoHideMenuBar: true,
         //minimizable: false,
         resizable: false,
@@ -71,8 +71,8 @@ function clientWindow() {
     const main = BrowserWindow.getFocusedWindow()
     if(main) {
         client = new BrowserWindow({
-            width: 800,
-            height: 600,
+            width: 900,
+            height: 850,
             //autoHideMenuBar: true,
             resizable: false,
             parent: main,
