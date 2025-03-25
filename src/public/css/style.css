@@ -20,13 +20,15 @@ footer  {
     bottom: 0;
     width: 100%;
     font-size: 15px;
-    text-align: center;
-
+    justify-content: space-between;
+    display: flex;
+    padding: 5px;
 }
 
 footer p {
     margin: 0;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.2em;
 }
 
 #btnReset {

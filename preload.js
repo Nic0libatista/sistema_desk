@@ -6,7 +6,15 @@
 // contextbridge segunrança | ipcrenderer comunicação
 const {contextBridge,ipcRenderer} = require('electron')
 
+//enviar ao main um pedido para conexão com banco de dados e troca de icone no processo de renderização (index.html - renderer.html)
+ipcRenderer.send('db-connect')
+
 contextBridge.exposeInMainWorld('api',{
     clientWindow: () => ipcRenderer.send('client-Window'),
-    osWindow: () => ipcRenderer.send('os-Window')
+    osWindow: () => ipcRenderer.send('os-Window'),
+    dbstatus:(message) => ipcRenderer.on('db-status', message)
 })
+
+function dbstatus(message){
+    ipcRenderer.on('db-status', message)
+}
