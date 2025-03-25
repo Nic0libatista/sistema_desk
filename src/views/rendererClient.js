@@ -44,7 +44,7 @@ let numberCliente = document.getElementById('inputNumberClient')
 let complementClient = document.getElementById('inputComplementClient')
 let neighborhoodClient = document.getElementById('inputNeighboorhoodClient')
 let cityClient = document.getElementById('inputCityClient')
-let ufCliente = document.getElementById('inputUFCliente')
+let ufClient = document.getElementById('inputUFClient')
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// CRUD CREATE/UPDATE 
@@ -56,8 +56,26 @@ frmCliente.addEventListener('submit', async (Event) => {
     // evitar o comportamento padrão do submit q é enviar os dados do formulario e reiniciar o documento html
     Event.preventDefault()
     // teste importante (recebimento dos dados)
-    console.log(nameClient.value, cpfClient.value,  emailClient.value, phoneClient.value, cepClient.value, adressClient.value, numberCliente.value,complementClient.value, neighborhoodClient.value, cityClient.value,ufCliente.value)
-})
+    console.log(nameClient.value, cpfClient.value,  emailClient.value, phoneClient.value, cepClient.value, adressClient.value, numberCliente.value,complementClient.value, neighborhoodClient.value, cityClient.value,ufClient.value)
 
+
+// criar um obj para armazenar os dados do cliente antes de enviar ao main
+const client ={
+    nameCli: nameClient.value,
+    cpfCli: cpfClient.value,
+    emailCli: emailClient.value,
+    phoneCli: phoneClient.value,
+    cepCli: cepClient.value,
+    adressCli: adressClient.value,
+    numberCli: numberCliente.value,
+    complementCli: complementClient.value,
+    neighborhoodCli: neighborhoodClient.value,
+    cityCli: cityClient.value,
+    ufCli: ufClient.value
+}
+
+    api.newClient(client)
+
+})
 
 ////////////////////////////////// fim /////////////////////////////////////////////////////

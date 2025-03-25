@@ -79,8 +79,13 @@ function clientWindow() {
             //autoHideMenuBar: true,
             resizable: false,
             parent: main,
-            modal: true
-        })
+            modal: true,
+            // ativar preload.js
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js')
+        }
+         })
+        
     }
     client.loadFile('./src/views/cliente.html')  
     client.center() // iniciar no centro da tela
@@ -221,3 +226,11 @@ const template = [
         ]
     }
 ]
+
+//clientes -- crud create
+ipcMain.on('new-client', async (event,client) => {
+    // !!! teste de recebimento dos dados do cliente
+    console.log(client)
+
+
+})
