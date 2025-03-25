@@ -8,6 +8,13 @@ const path = require('node:path')
 // importação dos modulo de conectar e desconectar (modulo de conexão)
 const {conectar, desconectar} = require('./database.js')
 
+// importação do schema clientes da camada model
+const clientModel = require ('./src/models/cliente.js')
+
+
+
+
+
 // Janela principal
 let win
 const createWindow = () => {
@@ -232,5 +239,27 @@ ipcMain.on('new-client', async (event,client) => {
     // !!! teste de recebimento dos dados do cliente
     console.log(client)
 
+    try {
 
+        //criar nova estrutura de dados usando a class modelo. !!! os atributos precisam ser identicos ao modelo de dados cliente.js
+        // e os valores são definidos pelo conteúdo de objeto cliente
+        const newClient = new clientModel({
+            nomeCliente: client.nameCli,
+            cpfCliente: client.cpfCli,
+            emailCliente: client.emailCli,
+            foneCliente: client. phoneCli,
+            cepCliente: client.cepCli,
+            logradouroCliente: client.adressCli,
+            numeroCliente: client.numberCli,
+            complementoCliente: client.complementCli,
+            bairroCliente: client.neighborhoodCli,
+            cidadeCliente: client.cityCli,
+            ufCliente: client.ufCli
+        })
+
+        //salvar os dados do cliente no banco de dados
+        await newClient.save()
+        } catch(error) {
+        console.log(error)
+    }
 })

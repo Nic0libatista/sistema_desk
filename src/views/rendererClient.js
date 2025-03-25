@@ -46,7 +46,7 @@ let neighborhoodClient = document.getElementById('inputNeighboorhoodClient')
 let cityClient = document.getElementById('inputCityClient')
 let ufClient = document.getElementById('inputUFClient')
 
-////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// CRUD CREATE/UPDATE 
 
 
@@ -75,6 +75,8 @@ const client ={
 }
 
     api.newClient(client)
+
+    // cadastrar a estrutura de dados no banco de dados MongoDB
 
 })
 
