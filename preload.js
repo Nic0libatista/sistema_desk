@@ -13,7 +13,8 @@ contextBridge.exposeInMainWorld('api',{
     clientWindow: () => ipcRenderer.send('client-Window'),
     osWindow: () => ipcRenderer.send('os-Window'),
     dbstatus:(message) => ipcRenderer.on('db-status', message),
-    newClient:(client)=>ipcRenderer.send('new-client',client)
+    newClient:(client)=>ipcRenderer.send('new-client',client),
+    resetForm: (args) => ipcRenderer.on('reset-form', args)
 })
 
 function dbstatus(message){

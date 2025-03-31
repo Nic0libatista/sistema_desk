@@ -1,6 +1,6 @@
 console.log("Processo principal")
 
-const { app, BrowserWindow, nativeTheme, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, nativeTheme, Menu, ipcMain, dialog, shell } = require('electron')
 
 //linha relacionada ao preload.js
 const path = require('node:path')
@@ -10,10 +10,12 @@ const {conectar, desconectar} = require('./database.js')
 
 // importação do schema clientes da camada model
 const clientModel = require ('./src/models/cliente.js')
+const { title } = require('node:process')
+const {jspdf, default: jsPDF} = require('jspdf')
 
 
-
-
+//importação da biblioteca fs (nativa js) p manipulação de arquivos (no caso, uso do pdf)
+const fs = require('fs')
 
 // Janela principal
 let win
@@ -185,7 +187,8 @@ const template = [
         label: 'Relatórios',
         submenu: [
             {
-                label: 'Clientes'
+                label: 'Clientes',
+                click: () => relatorioClientes()
             },
             {
                 label: 'OS abertas'
@@ -259,7 +262,87 @@ ipcMain.on('new-client', async (event,client) => {
 
         //salvar os dados do cliente no banco de dados
         await newClient.save()
+        // mensagem de confirmação
+        dialog.showMessageBox({
+                 //customização
+                 type: 'info',
+                 title: "aviso",
+                 message: "cliente adicionado com sucesso",
+                 buttons: ['ok']
+        }).then((result) => {
+            // ação ao pressionar o botao (result - 0)
+            if(result.response === 0){
+                // enviar pedido para o renderizador limpar os campos e resetar as conf pre definidas
+                // (rotulo 'reset-form) do preload js
+                event.reply('reset-form')
+            }
+            // ação ao pressionar o botão
+
+        })
         } catch(error) {
+            //se codigo de erro for 11000 (cpf duplicado) enviar uma mensagem ao usuario
+            if (error.code === 11000){
+                dialog.showMessageBox({
+                    type: 'error',
+                    title: "atenção",
+                    message: " cpf já está cadastrado \n verifique se digitou corretamente",
+                    buttons: ['ok']
+
+                }).then((result) => {
+                    if (result.response === 0) {
+                        // limpar a caixa do cpf e deixar a borda em vermelho
+
+                    }
+
+                })
+            }
         console.log(error)
     }
 })
+
+
+///////////////////////////// relatorio de clientes ////////////////////////////////////////////////
+
+async function relatorioClientes(){
+    try{
+        // passo 1: consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabetica
+        const clientes = await clientModel.find().sort({nomeCliente:1})
+        // teste de recebimento da listagem de clientes
+        // console.log(clientes)
+        const doc =new jsPDF ('p', 'mm', 'a4')
+        // definir o tamanho da  (tamanho equivalente ao word)
+        doc.setFontSize(16)
+        // escrever um texto (titulo)
+        doc.text("relatorio de clientes", 14, 20) // x,y (mm)
+        // inserir a data atual no relatorio
+        const dataatual = new Date().toLocaleDateString('pt-BR')
+        doc.setFontSize(12)
+        doc.text(`Data: ${dataatual}`, 160, 10)
+        // variavel de apoio na formatação
+        let y = 45
+        doc.text("nome", 14,y)
+        doc.text("telefone",80, y)
+        doc.text("email", 130, y)
+        y +=5
+        // desemhar uma linha
+        doc.setLineWidth(0.5) // expessura da linha
+        doc.line(10,y, 200,y) // 10 (inicio) --------- 200 (fim)
+
+        // ...
+
+        // definir o caminho do arquivo temporario
+        const tempDir = app.getPath('temp')
+        const filePath = path.join(tempDir, 'clientes.pdf')
+        // salvar temporariamente o arquivo
+        doc.save(filePath)
+        // abrir o arquivo do aplicativo padrão de leitura de pdf do computador do usuario
+        shell.openPath(filePath)
+    } catch(error){
+        console.log(error)
+    }
+    
+}
+
+
+
+////////////////////////////// fim - relatorio de clientes ////////////////////////////////////////////

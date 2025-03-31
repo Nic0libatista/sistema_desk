@@ -55,6 +55,8 @@ let ufClient = document.getElementById('inputUFClient')
 frmCliente.addEventListener('submit', async (Event) => {
     // evitar o comportamento padrão do submit q é enviar os dados do formulario e reiniciar o documento html
     Event.preventDefault()
+   
+
     // teste importante (recebimento dos dados)
     console.log(nameClient.value, cpfClient.value,  emailClient.value, phoneClient.value, cepClient.value, adressClient.value, numberCliente.value,complementClient.value, neighborhoodClient.value, cityClient.value,ufClient.value)
 
@@ -80,4 +82,21 @@ const client ={
 
 })
 
+
+
+
+
 ////////////////////////////////// fim /////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////// reset form ///////////////////////////////////////
+function resetForm() {
+    //limpar os campos e resetar o formulario com as configuraçoes pré definidas
+    
+    location.reload()
+}
+
+api.resetForm((args) => {
+    resetForm()
+})
