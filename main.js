@@ -311,22 +311,65 @@ async function relatorioClientes(){
         // console.log(clientes)
         const doc =new jsPDF ('p', 'mm', 'a4')
         // definir o tamanho da  (tamanho equivalente ao word)
-        doc.setFontSize(16)
+        // p = portrait | l = landscape | mm | a4
+        // inserir imagem no doc html
+        //imagempath é o caminho q será inserido no pdf
+        // imagembase64 (uso da biblioteca fs para ler o arquivo no formato png)
+        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
+        const imagebase64 = fs.readFileSync(imagePath, {encoding: 'base64'})
+        doc.addImage(imagebase64, 'PNG', 5,8) // (5mm, 8mm) x,y
+
+        doc.setFontSize(18)
         // escrever um texto (titulo)
-        doc.text("relatorio de clientes", 14, 20) // x,y (mm)
+        doc.text("relatorio de clientes", 14, 45) // x,y (mm)
         // inserir a data atual no relatorio
         const dataatual = new Date().toLocaleDateString('pt-BR')
         doc.setFontSize(12)
-        doc.text(`Data: ${dataatual}`, 160, 10)
+        doc.text(`Data: ${dataatual}`, 165, 10)
         // variavel de apoio na formatação
-        let y = 45
+        let y = 60
         doc.text("nome", 14,y)
         doc.text("telefone",80, y)
         doc.text("email", 130, y)
         y +=5
-        // desemhar uma linha
+        // desenhar uma linha
         doc.setLineWidth(0.5) // expessura da linha
         doc.line(10,y, 200,y) // 10 (inicio) --------- 200 (fim)
+        
+        y+=10 
+        // renderizar os clientes cadastrados no banco
+       
+
+        clientes.forEach((c) => {
+            // add outra pg se a folha inteira for preenchida (estrategia é saber tamanho da folha)
+            // folha a4 tem y=297mm
+            if (y > 280) {
+                doc.addPage()
+                y= 20 // reseta a variavel y
+                doc.text("nome", 14,y)
+                doc.text("telefone",80, y)
+                doc.text("email", 130, y)
+                y+=5
+                // desenhar uma linha
+                doc.setLineWidth(0.5) // expessura da linha
+                doc.line(10,y, 200,y) // 10 (inicio) --------- 200 (fim)
+                y+=10
+
+            }
+            doc.text(c.nomeCliente, 14, y)
+            doc.text(c.foneCliente, 80, y)
+            doc.text(c.emailCliente || "n/a", 130, y)
+            y += 10 
+
+
+        })
+        // add numeração automatica de páginas
+        const paginas = doc.internal.getNumberOfPages()
+        for (let i = 1; i <= paginas; i++) {
+            doc.setPage(i)
+            doc.setFontSize(10)
+            doc.text(`pagina ${i} de ${paginas}`,105,290, {align:'center'})
+        }
 
         // ...
 
