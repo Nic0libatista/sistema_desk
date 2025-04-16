@@ -389,3 +389,27 @@ async function relatorioClientes(){
 
 
 ////////////////////////////// fim - relatorio de clientes ////////////////////////////////////////////
+
+/////////////////////////////// começo - pesquisa pelo nome /////////////////////////////////
+
+ipcMain.on('search-name',async (event,name) =>{
+   // console.log("teste IPC search-name")
+   // console.log(name)
+   // find --- (nomeCliente: name) - busca pelo nome 
+   // regEXP (name,i) i= insensitive -- ignora maiusculo ou minusculo 
+   try {
+    const dataClient = await clientModel.find({
+        nomeCliente: new RegExp(name, 'i')
+
+    })
+    console.log(dataClient)
+    // envia os dados do cliente ao renderer
+    // !!! ipc apenas trabalha com string ent é necessario converter o JSON para string
+    event.reply('render-client', JSON.stringify(dataClient))
+   } catch(error){
+    console.log(error)
+   }
+})
+
+
+///////////////////////////////// fim - pesquisa pelo nome //////////////////////////////////////////

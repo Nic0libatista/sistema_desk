@@ -19,6 +19,8 @@ function buscarCEP() {
     .catch(error => console.log(error))
 }
 
+// vetor global q será usado na manipulação dos dados
+let arrayClient=[]
 //capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificada como searchClient
 const foco = document.getElementById('searchClient')
@@ -100,3 +102,31 @@ function resetForm() {
 api.resetForm((args) => {
     resetForm()
 })
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+function buscarCliente(){
+    let name=document.getElementById('searchClient').value
+    console.log(name)
+    api.searchName(name)
+    //recebimento dos dados do cliente
+    api.renderClient((event,dataClient) => {
+        // console.log(dataClient) // teste
+        const dadosCliente=JSON.parse(dataClient)
+        arrayClient =dadosCliente
+
+        arrayClient.forEach((c) =>{
+            nameClient.value=c.nomeCliente,
+            cpfClient.value=c.cpfCliente,
+            emailClient.value=c.emailCliene,
+            phoneClient.value=c.foneCliente,
+            cepClient.value=c.cepCliente,
+             adressClient.value=c.logradouroCliente,
+             numberCliente.value=c.numeroCliente,
+             complementClient.value=c.complementoCliente,
+             neighborhoodClient.value=c.bairroCliente,
+             cityClient.value=c.cidadeCliente
+
+        });
+    })
+}
