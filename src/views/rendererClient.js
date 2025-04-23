@@ -103,12 +103,23 @@ api.resetForm((args) => {
     resetForm()
 })
 
-///////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////// crud read ////////////////////////////////////////////////
 
 function buscarCliente(){
     let name=document.getElementById('searchClient').value
     console.log(name)
-    api.searchName(name)
+
+    //validação de campo obrigatorio
+    // se o campo de Busca nn foi preenchido
+    if(name ===""){
+        //enviar um alerta para o usuario
+        api.validateSearch()
+        foco.focus()
+    } else {
+        // enviar ao main um pedido para alertar o usuário
+        //enviar um alerta para o usuario
+
+        api.searchName(name)
     //recebimento dos dados do cliente
     api.renderClient((event,dataClient) => {
         // console.log(dataClient) // teste
@@ -130,3 +141,18 @@ function buscarCliente(){
         });
     })
 }
+
+}
+////////////////// setar o cliente não cadastrado (recortar do campo de busca e colar no camppo nome)
+
+api.setClient((args) => {
+    // criar uma variavel p armazenar o valor digitado no campo de busca (nome ou cpf)
+    let campoBusca = document.getElementById('searchClient').value
+    // foco no campo de nome do cliente
+    nameClient.focus()
+    // remover o valor digitado no campo de busca
+    foco.value =""
+    // preencher o campo de nome do cliente com o nome da busca
+    nameClient.value = campoBusca
+})
+// ////////////////////////// fim do crud read ////////////////// 

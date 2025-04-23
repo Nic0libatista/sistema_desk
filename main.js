@@ -390,6 +390,20 @@ async function relatorioClientes(){
 
 ////////////////////////////// fim - relatorio de clientes ////////////////////////////////////////////
 
+
+
+////////////////////////////// validação de busca (preenchimento obrigatorio)////////////////////
+ipcMain.on('validate-search', () =>{
+    dialog.showMessageBox({
+        type: 'warning',
+        title: "Atenção!!",
+        message: "Preencha o campo de busca",
+        buttons: ['OK']
+    })
+})
+
+
+
 /////////////////////////////// começo - pesquisa pelo nome /////////////////////////////////
 
 ipcMain.on('search-name',async (event,name) =>{
@@ -403,6 +417,32 @@ ipcMain.on('search-name',async (event,name) =>{
 
     })
     console.log(dataClient)
+
+//se o cliente n estiver cadastrado, alertar o usuario e questionar se ele quer cadastrar novo cliente
+// caso n queira, limpar os campos. caso queira, recortar o nome do campo de busca e colocar no campo nome
+
+// se o vetor tiver vazio [] (cliente não cadastrado )
+if (dataClient.length ===0){
+dialog.showMessageBox({
+    type: 'question',
+    title: "Aviso",
+    message:"Cliente não cadastrado. \nDeseja cadastrar esse cliente?",
+    defaultId: 0,
+    buttons: ['Sim', 'Não'] // [0 e 1]
+
+
+}).then((result) =>{
+    if(result.response === 0){
+         // envia ao renderizador um pedido para setar os campos (recortar do campo de busca e colar no campo nome)
+        event.reply('set-client')
+    } else{
+        // limpar o formulario
+        event.reply('reset-form')
+    }
+
+})
+} 
+
     // envia os dados do cliente ao renderer
     // !!! ipc apenas trabalha com string ent é necessario converter o JSON para string
     event.reply('render-client', JSON.stringify(dataClient))
