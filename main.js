@@ -257,7 +257,9 @@ ipcMain.on('new-client', async (event,client) => {
             complementoCliente: client.complementCli,
             bairroCliente: client.neighborhoodCli,
             cidadeCliente: client.cityCli,
-            ufCliente: client.ufCli
+            ufCliente: client.ufCli,
+
+        
         })
 
         //salvar os dados do cliente no banco de dados
@@ -453,3 +455,23 @@ dialog.showMessageBox({
 
 
 ///////////////////////////////// fim - pesquisa pelo nome //////////////////////////////////////////
+
+/// crud deletee ////////////////////
+ipcMain.on('delete-client', async(event,id)=>{
+    console.log(id)
+    try {
+        const {response} = await dialog.showMessageBox(client, {
+            type: 'warning',
+            titlle:"atenção!!!!!!!!",
+            message:"deseja excluir este cliente \n Está ação não poderá ser desfeita",
+            buttons:['cancelar', 'excluir']
+        })
+        if (response === 1){
+            // passo 3 - excluir o registro do cliente
+            const delClient = await clientModel.findByIdAndDelete(id)
+            event.reply('reset-form')
+        }
+    } catch(error){
+        console.log(error)
+    }
+})

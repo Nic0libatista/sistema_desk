@@ -10,6 +10,10 @@
     cursor:pointer;
 }
 
+/* ocultar o campo id do cliente */
+#idClient{
+    display: none;
+}
 
 
 footer  {

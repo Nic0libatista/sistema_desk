@@ -34,6 +34,28 @@ document.addEventListener('DOMContentLoaded', ()=> {
   foco.focus()
 })
 
+// função para manipular o evento da tecla enter
+function teclaEnter(event){
+    // se a tecla enter for pressionada
+    if(event.key ==="Enter"){
+        event.preventDefault() // Ignorar o comportamento padrão 
+
+        // associar o enter a busca pelo cliente
+        buscarCliente()
+    }
+}
+
+// fim da função da tecla enter ////////////////////////////////////////////
+
+// função para restaurar o padrão da tecla enter (submit) /////////////////////
+function restaurarEnter(){
+    frmCliente.removeEventListener('keydown', teclaEnter)
+}
+
+// esculta do evento tecla enter
+// frmCliente.addEventListener('keydown', teclaEnter)
+
+
 //capturar dos dados  dos input do funcionario (passo 1: fluxo)
 let frmCliente = document.getElementById('frmCliente')
 let nameClient = document.getElementById('inputNameClient')
@@ -47,6 +69,9 @@ let complementClient = document.getElementById('inputComplementClient')
 let neighborhoodClient = document.getElementById('inputNeighboorhoodClient')
 let cityClient = document.getElementById('inputCityClient')
 let ufClient = document.getElementById('inputUFClient')
+
+// captura do ID do cliente (usado no delete e no update)
+let id = document.getElementById('idClient')
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// CRUD CREATE/UPDATE 
@@ -127,6 +152,7 @@ function buscarCliente(){
         arrayClient =dadosCliente
 
         arrayClient.forEach((c) =>{
+            id.value = c._id,
             nameClient.value=c.nomeCliente,
             cpfClient.value=c.cpfCliente,
             emailClient.value=c.emailCliene,
@@ -137,22 +163,24 @@ function buscarCliente(){
              complementClient.value=c.complementoCliente,
              neighborhoodClient.value=c.bairroCliente,
              cityClient.value=c.cidadeCliente
-
-        });
-    })
+          // bloqueio do botão adicionar
+          btnCreate.disabled = true
+          // desbloqueio dos botões
+          btnUpdate.disabled = false
+          btnDelete.disabled = false
+      });
+  });
+};
 }
 
-}
-////////////////// setar o cliente não cadastrado (recortar do campo de busca e colar no camppo nome)
-
-api.setClient((args) => {
-    // criar uma variavel p armazenar o valor digitado no campo de busca (nome ou cpf)
-    let campoBusca = document.getElementById('searchClient').value
-    // foco no campo de nome do cliente
-    nameClient.focus()
-    // remover o valor digitado no campo de busca
-    foco.value =""
-    // preencher o campo de nome do cliente com o nome da busca
-    nameClient.value = campoBusca
+api.setClient((args)=>{
+  let campoBusca = document.getElementById('searchClient').value
+  nameClient.focus()
+  foco.value =""
+  nameClient.value = campoBusca
 })
-// ////////////////////////// fim do crud read ////////////////// 
+
+function excluirCliente(){
+    console.log(id.value) // passo 1 (receber do form o id)
+    api.deleteClient(id.value)
+}
