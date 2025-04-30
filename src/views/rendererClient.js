@@ -64,7 +64,7 @@ let emailClient = document.getElementById('inputEmailClient')
 let phoneClient = document.getElementById('inputPhoneClient')
 let cepClient = document.getElementById('inputCEPClient')
 let adressClient = document.getElementById('inputAddressClient')
-let numberCliente = document.getElementById('inputNumberClient')
+let numberClient = document.getElementById('inputNumberClient')
 let complementClient = document.getElementById('inputComplementClient')
 let neighborhoodClient = document.getElementById('inputNeighboorhoodClient')
 let cityClient = document.getElementById('inputCityClient')
@@ -85,30 +85,51 @@ frmCliente.addEventListener('submit', async (Event) => {
    
 
     // teste importante (recebimento dos dados)
-    console.log(nameClient.value, cpfClient.value,  emailClient.value, phoneClient.value, cepClient.value, adressClient.value, numberCliente.value,complementClient.value, neighborhoodClient.value, cityClient.value,ufClient.value)
+    console.log(nameClient.value, cpfClient.value,  emailClient.value, phoneClient.value, cepClient.value, adressClient.value, numberClient.value,complementClient.value, neighborhoodClient.value, cityClient.value,ufClient.value)
 
 
 // criar um obj para armazenar os dados do cliente antes de enviar ao main
-const client ={
-    nameCli: nameClient.value,
-    cpfCli: cpfClient.value,
-    emailCli: emailClient.value,
-    phoneCli: phoneClient.value,
-    cepCli: cepClient.value,
-    adressCli: adressClient.value,
-    numberCli: numberCliente.value,
-    complementCli: complementClient.value,
-    neighborhoodCli: neighborhoodClient.value,
-    cityCli: cityClient.value,
-    ufCli: ufClient.value
-}
-
+ // estrategia para reutilizar o submit para criar um novo usuario ou alterar  os dados de um usuario
+ if (id.value === ""){
+    const client = {
+        nameClient : nameClient.value,
+        cpfClient: cpfClient.value,
+        emailClient: emailClient.value,
+        phoneClient: phoneClient.value, 
+        cepClient:cepClient.value, 
+        adressClient: adressClient.value, 
+        numberClient:numberClient.value, 
+        complementClient:complementClient.value,
+        neighborhoodClient: neighborhoodClient.value, 
+        cityClient: cityClient.value,
+        ufClient:ufClient.value
+    }
+    // enviar ao main o objeto client - passo 2 fluxo
     api.newClient(client)
+}else{
 
-    // cadastrar a estrutura de dados no banco de dados MongoDB
+    const client = {
+        nameClient : nameClient.value,
+        cpfClient: cpfClient.value,
+        emailClient: emailClient.value,
+        phoneClient: phoneClient.value, 
+        cepClient:cepClient.value, 
+        adressClient: adressClient.value, 
+        numberClient:numberClient.value, 
+        complementClient:complementClient.value,
+        neighborhoodClient: neighborhoodClient.value, 
+        cityClient: cityClient.value,
+        ufClient:ufClient.value
+    }
+    // enviar ao main o objeto client - passo 2 fluxo
+    api.updateClient(client)
+}
+// enviar ao main o objeto client - passo 2 fluxo
+api.newClient(client)
+
+// criar um objeto para armazenar os dados do cliente antes de enviar ao main
 
 })
-
 
 
 
@@ -158,8 +179,8 @@ function buscarCliente(){
             emailClient.value=c.emailCliene,
             phoneClient.value=c.foneCliente,
             cepClient.value=c.cepCliente,
-             adressClient.value=c.logradouroCliente,
-             numberCliente.value=c.numeroCliente,
+            adressClient.value=c.logradouroCliente,
+            numberCliente.value=c.numeroCliente,
              complementClient.value=c.complementoCliente,
              neighborhoodClient.value=c.bairroCliente,
              cityClient.value=c.cidadeCliente
