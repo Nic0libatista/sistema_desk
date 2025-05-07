@@ -20,7 +20,8 @@ contextBridge.exposeInMainWorld('api',{
     validateSearch:() =>ipcRenderer.send('validate-search'),
     setClient: (args) => ipcRenderer.on('set-client', args),
     deleteClient: (id) => ipcRenderer.send('delete-client', id),
-    updateClient:(id) => ipcRenderer.send('update-client', client)
+    updateClient:(id) => ipcRenderer.send('update-client', client),
+    searchOS:()=> ipcRenderer.send('search-os')
 })
 
 function dbstatus(message){
