@@ -17,6 +17,10 @@ const {jspdf, default: jsPDF} = require('jspdf')
 //importação da biblioteca fs (nativa js) p manipulação de arquivos (no caso, uso do pdf)
 const fs = require('fs')
 
+// importação do recurso 'electron-prompt' (dialog on input)
+// instalar o recurso
+const prompt= require('electron-prompt')
+
 // Janela principal
 let win
 const createWindow = () => {
@@ -113,7 +117,9 @@ function osWindow() {
           //  autoHideMenuBar: true,
             resizable: false,
             parent: main,
-            modal: true
+            modal: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js') }
         })
     }
     os.loadFile('./src/views/os.html')   
@@ -535,3 +541,49 @@ const updateClient = await clientModel.findByIdAndUpdate(
     }
 })
 
+
+
+
+//************************************************************/
+//*******************  Ordem de Serviço  *********************/
+//************************************************************/
+
+
+// ============================================================
+// == Buscar OS ===============================================
+
+ipcMain.on('search-os', (event) => {
+    //console.log("teste: busca OS")
+    prompt({
+        title: 'Buscar OS',
+        label: 'Digite o número da OS:',
+        inputAttrs: {
+            type: 'text'
+        },
+        type: 'input',        
+        width: 400,
+        height: 200
+    }).then((result) => {
+        if (result !== null) {
+            console.log(result)
+            //buscar a os no banco pesquisando pelo valor do result (número da OS)
+
+        } 
+    })
+})
+
+// == Fim - Buscar OS =========================================
+// ============================================================
+
+/////////////// buscar cliente p vincular na os 
+ipcMain.on('search-clients', async (event)=>{
+    try{
+        // buscar no banco por ordem alfabetica 
+        const clients = await clientModel.find().sort({nomeCliente: 1})
+
+        // 3: envio dos clientes p renderizador  !! converter p string
+        event.reply('list-clients', JSON.stringify(clients))
+    } catch(error){
+        console.log(error)
+    }
+})

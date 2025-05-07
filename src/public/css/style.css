@@ -50,3 +50,10 @@ footer p {
     border: none;
     cursor:none;
 }
+
+/* Lista de clientes vinculados a os*/
+#viewListSuggestion{
+    z-index: 2;
+    max-width: 382px;
+
+}
