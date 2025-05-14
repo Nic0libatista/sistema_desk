@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/professorjosedeassis/assisti.git"
+    "url": "git+https://github.com/Nic0libatista/sistema_desk.git"
   },
-  "author": "Professor José de Assis",
+  "author": "Nicoli Santos",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/professorjosedeassis/assisti/issues"
+     "url": "https://github.com/Nic0libatista/sistema_desk/issues"
   },
-  "homepage": "https://github.com/professorjosedeassis/assisti#readme",
+  "homepage": "https://github.com/Nic0libatista/sistema_desk#readme",
   "devDependencies": {
     "electron": "^34.2.0"
   },
